@@ -1,6 +1,6 @@
 # SoundApp
 
-Steps to run the project
+### Steps to run the project
 
 Open you terminal pointing to the root folder of the project and run the following commands in specified order.
 
