@@ -1,6 +1,4 @@
-export { Swag } from './Swag';
-export { Piano } from './Piano';
-export { Guitar } from './Guitar';
+export { GuitarWhite } from './GuitarWhite';
 export { ErrorToastIcon } from './ErrorToastIcon';
-export { VolumeIndicator } from './VolumeIndicator';
 export { SuccessToastIcon } from './SuccessToastIcon';
+export { GuitarTransparent } from './GuitarTransparent'; 

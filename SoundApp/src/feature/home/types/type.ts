@@ -1,6 +1,6 @@
-export type MusicStatus = 'playing' | 'not_playing'
+export type MusicType = 'guitar' | null;
 
-export type MusicType = 'piano' | 'guitar' | 'swag' | null;
+export type MusicStatus = 'playing' | 'not_playing'
 
 export type DownloadStatus = 'downloaded' | 'in_progress' | 'not_started'
 
