@@ -14,16 +14,13 @@ export const Animation: React.FC<IAnimationProps> = (props) => {
   return (
     <View
       style={{
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        top: 20,
         zIndex: 1000,
         position: 'absolute',
       }}
     >
       <Box
-        top={'50%'}
+        top={'20%'}
         width={300}
         height={300}
         alignSelf={'center'}>

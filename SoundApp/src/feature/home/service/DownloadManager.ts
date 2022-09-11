@@ -1,25 +1,12 @@
 import Sound from 'react-native-sound';
 import ReactNativeBlobUtil from 'react-native-blob-util'
 
-import {
-  SWAG_FILE_PATH,
-  PIANO_FILE_PATH,
-  GUITAR_FILE_PATH,
-} from '../../../utils/constants/Strings';
 import { FileMaster, MusicType } from '../types/type';
+import { GUITAR_FILE_PATH } from '../../../utils/constants/Strings';
 
-let globalSound = new Sound(''); // Assiging local sounds to this global sound variable to shut the previous sound after encountering a new sound play request by user
+let globalSound = new Sound(''); // Assiging local sound to this global sound if already playing
 
-const getDownloadUrl = (musicType: MusicType) => {
-  switch (musicType) {
-    case 'swag': return SWAG_FILE_PATH;
-    case 'piano': return PIANO_FILE_PATH;
-    case 'guitar': return GUITAR_FILE_PATH;
-    default: return '';
-  }
-}
-
-export const playSound = (musicType: MusicType, musicPath: string, setFile: (file: FileMaster) => void) => {
+export const playSound = (shouldPlaySound: boolean, musicType: MusicType, musicPath: string, setFile: (file: FileMaster) => void) => {
   let sound = new Sound(musicPath, '', (err) => {
     if (err) {
       console.log("Error while playing sound: " + JSON.stringify(err));
@@ -28,21 +15,22 @@ export const playSound = (musicType: MusicType, musicPath: string, setFile: (fil
     if (globalSound) {
       globalSound.stop();
     }
-    sound.setVolume(0.7);
     globalSound = sound;
-    sound.play((onEnd) => {
-      onEnd && setFile({
-        music: {
-          path: musicPath,
-          type: musicType,
-          status: 'not_playing',
-        },
-        download: {
-          progress: 0,
-          status: 'downloaded'
-        }
+    if (shouldPlaySound) {
+      sound.play((onEnd) => {
+        onEnd && setFile({
+          music: {
+            path: musicPath,
+            type: musicType,
+            status: 'not_playing',
+          },
+          download: {
+            progress: 0,
+            status: 'downloaded'
+          }
+        });
       });
-    });
+    }
   });
 }
 
@@ -56,7 +44,7 @@ export const downloadFile = (musicType: MusicType, setFile: (file: FileMaster) =
     path: musicPath,
     fileCache: true
   })
-    .fetch('GET', getDownloadUrl(musicType))
+    .fetch('GET', GUITAR_FILE_PATH)
     .progress({ interval: 250 }, (received, total) => {
       setFile({
         music: {
@@ -82,7 +70,7 @@ export const downloadFile = (musicType: MusicType, setFile: (file: FileMaster) =
           status: 'downloaded'
         }
       });
-      playSound(musicType, musicPath, (file) => {
+      playSound(true, musicType, musicPath, (file) => {
         setFile(file);
       });
     })
